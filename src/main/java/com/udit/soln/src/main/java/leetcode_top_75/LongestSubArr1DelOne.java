@@ -1,4 +1,4 @@
-package com.udit.soln.src.main.java.leetcode_top_75;
+package leetcode_top_75;
 /*
 Given a binary array nums, you should delete one element from it.
 Return the size of the longest non-empty subarray containing only 1's in the resulting array.
@@ -25,41 +25,65 @@ Constraints:
 public class LongestSubArr1DelOne {
     public static void main(String[] args) {
         LongestSubArr1DelOne arr1DelOne = new LongestSubArr1DelOne();
-//        int[] nums = {1,1,0,1};
-//        int[] nums = {0, 1, 0, 1, 0, 1, 1, 0, 0};
-        int[] nums = {1, 0, 1, 1, 0, 1, 1, 0, 0};
-//        int[] nums = {1,1,1};
+//        int[] nums = {1,1,0,1}; // 3
+//        int[] nums = {0, 1, 0, 1, 0, 1, 1, 0, 0}; // 3
+//        int[] nums = {1, 0, 1, 1, 0, 1, 1, 0, 0}; // 4
+//        int[] nums = {1,1,1}; // 2
+//        int[] nums = {0, 1, 1, 1, 0, 1, 1, 0, 1}; // 5
+//        int[] nums = {0, 0, 1, 1}; // 2
+         int[] nums = {0,1,1,1,1,1}; // 5
         System.out.println("REs= "+ arr1DelOne.longestSubarray(nums));
     }
+
     public int longestSubarray(int[] nums) {
         int len = nums.length;
         boolean oneRem = false;
-        int startIdx = 0;
         int maxLen=0;
-        int tempLen= nums[0] == 1 ? 1 : 0 ;
-        for(int i = 1; i < len ; i++) {
-            if(nums[i] == 1) {
-                tempLen++;
-            }
-           else if ( nums[i]==0 ) {
-                if (nums[i - 1] == 1 && nums[i + 1] == 1 && !oneRem) {
-                    oneRem = true;
-                } else {
-                    if(maxLen < tempLen){
-                        maxLen = oneRem ? tempLen : tempLen -1;
-                        oneRem = false;
-                    }
-                    if(nums[i-1]==1 && i+1<len && nums[i+1]==1 ){
-                        i = i-2;
-                        oneRem = false;
-                    }
-                    tempLen = 0;
+        int countZero = 0;
+        int OnesSartIdx = 0 ;
+        int tempLen= 0; //nums[0] == 1 ? 1 : 0 ;
+        OnesSartIdx = getOnesSartIdx(nums, len, 0);
+
+        for(int i = OnesSartIdx; i < len ; i++) {
+            if(nums[i] ==0 ) {
+                countZero++;
+                if(i==(len-1)) {
+                    maxLen = calMaxLen(tempLen,maxLen,countZero,OnesSartIdx,nums);
                 }
-            }
-            if(maxLen < tempLen){
-                maxLen = oneRem ? tempLen : tempLen -1;
+                continue;
+           }
+            if(nums[i] == 1 && countZero <= 1) {
+                tempLen++;
+                if(i==(len-1)) {
+                    maxLen = calMaxLen(tempLen,maxLen,countZero,OnesSartIdx,nums);
+                }
+            } else if(countZero > 1){
+                    maxLen = calMaxLen(tempLen,maxLen,countZero,OnesSartIdx,nums);
+                    tempLen =0;
+                    countZero = 0;
+                    OnesSartIdx = getOnesSartIdx(nums, len, OnesSartIdx+1);
+                    i = OnesSartIdx-1;
+            } else {
+                maxLen = calMaxLen(tempLen, maxLen, countZero,OnesSartIdx,nums);
             }
         }
         return maxLen;
+    }
+    private int getOnesSartIdx(int[] nums, int len, int OnesSartIdx) {
+        for (int i = OnesSartIdx; i < len; i++) {
+            if( nums[i] == 0) {
+                continue;
+            }
+            OnesSartIdx = i;
+            break;
+        }
+        return OnesSartIdx;
+    }
+    private int calMaxLen(int tmpLen, int maxLen, int countZero,int OneStartIdx, int[] nums) {
+        int max = Math.max(tmpLen, maxLen);
+        max = countZero >0 ? max : max -1;
+        if(countZero==0 && OneStartIdx-1 >=0 && nums[OneStartIdx-1]==0)
+            max++;
+        return max;
     }
 }
