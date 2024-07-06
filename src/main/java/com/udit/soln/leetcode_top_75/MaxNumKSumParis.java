@@ -1,4 +1,4 @@
-package com.udit.soln.src.main.java.leetcode_top_75;
+package com.udit.soln.leetcode_top_75;
 
 import java.util.*;
 

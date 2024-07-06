@@ -1,4 +1,4 @@
-package com.udit.soln.src.main.java.leetcode_top_75;
+package com.udit.soln.leetcode_top_75;
 
 /*
 Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and

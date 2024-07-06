@@ -1,4 +1,4 @@
-package leetcode_top_75;
+package com.udit.soln.leetcode_top_75;
 /*
 Given a binary array nums, you should delete one element from it.
 Return the size of the longest non-empty subarray containing only 1's in the resulting array.

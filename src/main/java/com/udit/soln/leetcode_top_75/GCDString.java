@@ -1,4 +1,4 @@
-package com.udit.soln.src.main.java.leetcode_top_75;
+package com.udit.soln.leetcode_top_75;
 
 /*
 For two strings s and t, we say "t divides s" if and only if s = t + t + t + ... + t + t
